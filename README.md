@@ -42,7 +42,7 @@ class _AppState extends State<App> with LifecycleMixin {
   
   /// optionally
   @override
-  afterFirstRender() {
+  void afterFirstRender() {
     print('run after first render');
   }
 }

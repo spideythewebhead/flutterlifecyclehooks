@@ -64,7 +64,7 @@ mixin LifecycleMixin<T extends StatefulWidget> on State<T>
   }
 
   /// you can override this to add a hook when the current frame ends
-  afterFirstRender() {}
+  void afterFirstRender() {}
 
   void onResume();
 
