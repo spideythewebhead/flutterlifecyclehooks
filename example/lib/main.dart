@@ -39,4 +39,9 @@ class _AppState extends State<App> with LifecycleMixin {
   void afterFirstRender() {
     print('run after first render');
   }
+
+  @override
+  void onDetached() {
+    print('detached');
+  }
 }

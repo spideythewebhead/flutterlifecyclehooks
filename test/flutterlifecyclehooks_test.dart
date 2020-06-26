@@ -23,6 +23,16 @@ void main() {
     verify(mockLifecycle.onPause()).called(1);
     verify(mockLifecycle.onResume()).called(1);
   });
+
+  testWidgets('verify onDetached called', (tester) async {
+    final mockLifecycle = MockLifecycle();
+
+    await tester.pumpWidget(App(mockLifecycle: mockLifecycle));
+
+    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.detached);
+
+    verify(mockLifecycle.onDetached()).called(1);
+  });
 }
 
 class App extends StatefulWidget {
@@ -57,5 +67,10 @@ class _AppState extends State<App> with LifecycleMixin {
   @override
   void onPause() {
     widget.mockLifecycle?.onPause();
+  }
+
+  @override
+  void onDetached() {
+    widget.mockLifecycle?.onDetached();
   }
 }

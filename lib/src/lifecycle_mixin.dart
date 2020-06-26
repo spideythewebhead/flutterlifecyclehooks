@@ -14,6 +14,8 @@ mixin LifecycleMixin<T extends StatefulWidget> on State<T>
       onResume();
     } else if (state == AppLifecycleState.paused) {
       onPause();
+    } else if (state == AppLifecycleState.detached) {
+      onDetached();
     }
   }
 
@@ -69,4 +71,6 @@ mixin LifecycleMixin<T extends StatefulWidget> on State<T>
   void onResume();
 
   void onPause();
+
+  void onDetached() {}
 }

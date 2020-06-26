@@ -1,6 +1,10 @@
 # flutterlifecyclehooks
 
-A flutter package that let you easily add hooks for application lifecycle state
+A flutter package that lets you easily add hooks for application lifecycle state
+LifecycleMixin just implements the `WidgetsBindingObserver` and invokes the callbacks
+`onResume`, `onPause`, `onDetached`, `afterFirstRender`, for you.
+You can use the other callbacks provided by `WidgetsBindingObserver` https://api.flutter.dev/flutter/widgets/WidgetsBindingObserver-class.html
+You don't need to manually call onDispose to deregister.
 
 ## Getting Started
 

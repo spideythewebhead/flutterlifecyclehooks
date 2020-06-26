@@ -1,3 +1,7 @@
+## 1.0.0
+
+* added onDetached
+
 ## 0.0.2
 
 * added unit tests
