@@ -51,6 +51,11 @@ mixin LifecycleMixin<T extends StatefulWidget> on State<T>
   }
 
   @override
+  Future<bool> didPushRouteInformation(RouteInformation routeInformation) {
+    return didPushRoute(routeInformation.location);
+  }
+
+  @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);

@@ -1,6 +1,6 @@
 name: flutterlifecyclehooks
 description: A flutter package that let you easily add hooks for application lifecycle state
-version: 1.0.0
+version: 1.0.1
 homepage: https://github.com/spideythewebhead/flutterlifecyclehooks
 
 environment:
@@ -21,7 +21,6 @@ dev_dependencies:
 
 # The following section is specific to Flutter.
 flutter:
-
 # To add assets to your package, add an assets section, like this:
 # assets:
 #   - images/a_dot_burr.jpeg
