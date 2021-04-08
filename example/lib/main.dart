@@ -25,6 +25,13 @@ class _AppState extends State<App> with LifecycleMixin {
   }
 
   @override
+  void onContextReady() {
+    /// get your provider or other context dependant
+    ///
+    print('on context ready => $context');
+  }
+
+  @override
   void onPause() {
     print('did pause');
   }

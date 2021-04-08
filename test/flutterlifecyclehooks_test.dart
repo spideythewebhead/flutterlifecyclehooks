@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutterlifecyclehooks/flutterlifecyclehooks.dart';
 import 'package:mockito/mockito.dart';
 
-import 'mock_lifecycle_minix_impl.dart';
+import 'mock_lifecycle_mixin_impl.dart';
 
 void main() {
   testWidgets('current lifecycle state resumed', (tester) async {
@@ -33,13 +33,25 @@ void main() {
 
     verify(mockLifecycle.onDetached()).called(1);
   });
+
+  testWidgets('verify onContextReady called', (tester) async {
+    final mockLifecycle = MockLifecycle();
+
+    /// change the lifecycle state from [AppLifecycleState.detatched] (see previous test)
+    ///  because the test otherwise fails
+    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
+
+    await tester.pumpWidget(App(mockLifecycle: mockLifecycle));
+
+    verify(mockLifecycle.onContextReady()).called(1);
+  });
 }
 
 class App extends StatefulWidget {
-  final MockLifecycle mockLifecycle;
+  final MockLifecycle? mockLifecycle;
 
   const App({
-    Key key,
+    Key? key,
     this.mockLifecycle,
   }) : super(key: key);
 
@@ -57,6 +69,16 @@ class _AppState extends State<App> with LifecycleMixin {
         ),
       ),
     );
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+  }
+
+  @override
+  void onContextReady() {
+    widget.mockLifecycle?.onContextReady();
   }
 
   @override
