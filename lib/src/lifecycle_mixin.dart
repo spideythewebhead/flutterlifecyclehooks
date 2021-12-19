@@ -3,10 +3,10 @@ import 'package:flutter/widgets.dart';
 /// A mixin that can be used on [StatefulWidget]s.
 /// Implements [WidgetsBindingObserver] and handles de/registering by itself.
 /// Must implement [onResume] and [onPause].
-/// Optionally override [afterFirstRender] to provide a callback
-/// when in need to run something after the first render of the widget.
+/// Override [onContextReady] as alternative to initState to have context ready
 /// Also to synchronously obtain the lifecycle you can call [currentLifecycleState]
-mixin LifecycleMixin<T extends StatefulWidget> on State<T> implements WidgetsBindingObserver {
+mixin LifecycleMixin<T extends StatefulWidget> on State<T>
+    implements WidgetsBindingObserver {
   var _didRunOnContextReady = false;
 
   @override
@@ -20,15 +20,13 @@ mixin LifecycleMixin<T extends StatefulWidget> on State<T> implements WidgetsBin
     }
   }
 
-  AppLifecycleState? get currentLifecycleState => WidgetsBinding.instance!.lifecycleState;
+  AppLifecycleState? get currentLifecycleState =>
+      WidgetsBinding.instance!.lifecycleState;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance!.addObserver(this);
-    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
-      afterFirstRender();
-    });
   }
 
   @override
@@ -57,10 +55,6 @@ mixin LifecycleMixin<T extends StatefulWidget> on State<T> implements WidgetsBin
   void onPause();
 
   void onDetached() {}
-
-  /// you can override this to add a hook when the current frame ends
-  /// use [onContextReady] to have earlier access on context
-  void afterFirstRender() {}
 
   @override
   void didChangeAccessibilityFeatures() {}

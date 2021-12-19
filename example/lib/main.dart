@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutterlifecyclehooks/flutterlifecyclehooks.dart';
 
 void main() {
-  runApp(App());
+  runApp(const App());
 }
 
 class App extends StatefulWidget {
+  const App({Key? key}) : super(key: key);
+
   @override
   _AppState createState() => _AppState();
 }
@@ -27,28 +29,21 @@ class _AppState extends State<App> with LifecycleMixin {
   @override
   void onContextReady() {
     /// get your provider or other context dependant
-    ///
-    print('on context ready => $context');
+    debugPrint('on context ready => $context');
   }
 
   @override
   void onPause() {
-    print('did pause');
+    debugPrint('did pause');
   }
 
   @override
   void onResume() {
-    print('did resume');
-  }
-
-  /// optionally
-  @override
-  void afterFirstRender() {
-    print('run after first render');
+    debugPrint('did resume');
   }
 
   @override
   void onDetached() {
-    print('detached');
+    debugPrint('detached');
   }
 }

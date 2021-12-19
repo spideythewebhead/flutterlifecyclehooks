@@ -1,26 +1,36 @@
 # flutterlifecyclehooks
 
-A flutter package that lets you easily add hooks for application lifecycle state
-LifecycleMixin just implements the `WidgetsBindingObserver` and invokes the callbacks
-`onResume`, `onPause`, `onDetached`, `afterFirstRender`, for you.
-You can use the other callbacks provided by `WidgetsBindingObserver` https://api.flutter.dev/flutter/widgets/WidgetsBindingObserver-class.html
-You don't need to manually call onDispose to deregister.
+A flutter package that lets you easily add hooks for application lifecycle state.
+LifecycleMixin just implements the `WidgetsBindingObserver` and invokes the callbacks `onResume`, `onPause` for you.
+
+Optionally provides `onContextReady`, `onDetached`.
+
+You can use the other callbacks provided by [WidgetsBindingObserver](https://api.flutter.dev/flutter/widgets/WidgetsBindingObserver-class.html)
 
 ## Getting Started
 
-Add on pubspec.yaml  
+Add on pubspec.yaml
 
-dependencies:  
-&nbsp;&nbsp;&nbsp;&nbsp;flutterlifecyclehooks: version
+```
+dependencies:
+    flutterlifecyclehooks: version
+```
 
-## Example code 
+## Example code
+
 ```
 class App extends StatefulWidget {
   @override
   _AppState createState() => _AppState();
-}  
+}
 
 class _AppState extends State<App> with LifecycleMixin {
+  // optional
+  @override
+  void onContextReady() {
+    print(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -42,12 +52,6 @@ class _AppState extends State<App> with LifecycleMixin {
   @override
   void onResume() {
     print('did resume');
-  }
-  
-  /// optionally
-  @override
-  void afterFirstRender() {
-    print('run after first render');
   }
 }
 ```

@@ -8,7 +8,7 @@ import 'mock_lifecycle_mixin_impl.dart';
 void main() {
   testWidgets('current lifecycle state resumed', (tester) async {
     tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
-    await tester.pumpWidget(App());
+    await tester.pumpWidget(const App());
     expect(find.text(AppLifecycleState.resumed.toString()), findsOneWidget);
   });
 
