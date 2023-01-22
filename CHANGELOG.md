@@ -1,3 +1,7 @@
+### 3.0.1
+
+- Add onInactive callback for AppLifecycleState.inactive
+
 ### 3.0.0
 
 - Support Flutter 3.0.0
