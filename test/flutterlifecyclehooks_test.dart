@@ -8,14 +8,14 @@ import 'mock_lifecycle_mixin_impl.dart';
 void main() {
   testWidgets('current lifecycle state resumed', (tester) async {
     tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
-    await tester.pumpWidget(const App());
+    await tester.pumpWidget(const _App());
     expect(find.text(AppLifecycleState.resumed.toString()), findsOneWidget);
   });
 
   testWidgets('verify onPause and onResume called', (tester) async {
     final mockLifecycle = MockLifecycle();
 
-    await tester.pumpWidget(App(mockLifecycle: mockLifecycle));
+    await tester.pumpWidget(_App(mockLifecycle: mockLifecycle));
 
     tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.paused);
     tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
@@ -24,10 +24,20 @@ void main() {
     verify(mockLifecycle.onResume()).called(1);
   });
 
+  testWidgets('verify onInactive called', (tester) async {
+    final mockLifecycle = MockLifecycle();
+
+    await tester.pumpWidget(_App(mockLifecycle: mockLifecycle));
+
+    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.inactive);
+
+    verify(mockLifecycle.onInactive()).called(1);
+  });
+
   testWidgets('verify onDetached called', (tester) async {
     final mockLifecycle = MockLifecycle();
 
-    await tester.pumpWidget(App(mockLifecycle: mockLifecycle));
+    await tester.pumpWidget(_App(mockLifecycle: mockLifecycle));
 
     tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.detached);
 
@@ -41,16 +51,16 @@ void main() {
     ///  because the test otherwise fails
     tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
 
-    await tester.pumpWidget(App(mockLifecycle: mockLifecycle));
+    await tester.pumpWidget(_App(mockLifecycle: mockLifecycle));
 
     verify(mockLifecycle.onContextReady()).called(1);
   });
 }
 
-class App extends StatefulWidget {
+class _App extends StatefulWidget {
   final MockLifecycle? mockLifecycle;
 
-  const App({
+  const _App({
     Key? key,
     this.mockLifecycle,
   }) : super(key: key);
@@ -59,7 +69,7 @@ class App extends StatefulWidget {
   _AppState createState() => _AppState();
 }
 
-class _AppState extends State<App> with LifecycleMixin {
+class _AppState extends State<_App> with LifecycleMixin {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -84,6 +94,11 @@ class _AppState extends State<App> with LifecycleMixin {
   @override
   void onResume() {
     widget.mockLifecycle?.onResume();
+  }
+
+  @override
+  void onInactive() {
+    widget.mockLifecycle?.onInactive();
   }
 
   @override
