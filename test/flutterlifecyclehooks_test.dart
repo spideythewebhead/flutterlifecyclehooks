@@ -82,11 +82,6 @@ class _AppState extends State<_App> with LifecycleMixin {
   }
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-  }
-
-  @override
   void onContextReady() {
     widget.mockLifecycle?.onContextReady();
   }

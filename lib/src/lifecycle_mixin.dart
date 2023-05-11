@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/widgets.dart';
 
 /// A mixin that can be used on [StatefulWidget]s.
@@ -96,5 +98,10 @@ mixin LifecycleMixin<T extends StatefulWidget> on State<T>
   @override
   Future<bool> didPushRouteInformation(RouteInformation routeInformation) {
     return Future.value(false);
+  }
+
+  @override
+  Future<AppExitResponse> didRequestAppExit() async {
+    return AppExitResponse.exit;
   }
 }
