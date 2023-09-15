@@ -17,11 +17,14 @@ void main() {
 
     await tester.pumpWidget(_App(mockLifecycle: mockLifecycle));
 
+    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.hidden);
     tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.paused);
-    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
+    verify(mockLifecycle.onAppPause()).called(1);
 
-    verify(mockLifecycle.onPause()).called(1);
-    verify(mockLifecycle.onResume()).called(1);
+    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.hidden);
+    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.inactive);
+    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
+    verify(mockLifecycle.onAppResume()).called(1);
   });
 
   testWidgets('verify onInactive called', (tester) async {
@@ -31,7 +34,7 @@ void main() {
 
     tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.inactive);
 
-    verify(mockLifecycle.onInactive()).called(1);
+    verify(mockLifecycle.onAppInactive()).called(1);
   });
 
   testWidgets('verify onDetached called', (tester) async {
@@ -41,7 +44,7 @@ void main() {
 
     tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.detached);
 
-    verify(mockLifecycle.onDetached()).called(1);
+    verify(mockLifecycle.onAppDetach()).called(1);
   });
 
   testWidgets('verify onContextReady called', (tester) async {
@@ -87,22 +90,22 @@ class _AppState extends State<_App> with LifecycleMixin {
   }
 
   @override
-  void onResume() {
-    widget.mockLifecycle?.onResume();
+  void onAppResume() {
+    widget.mockLifecycle?.onAppResume();
   }
 
   @override
-  void onInactive() {
-    widget.mockLifecycle?.onInactive();
+  void onAppInactive() {
+    widget.mockLifecycle?.onAppInactive();
   }
 
   @override
-  void onPause() {
-    widget.mockLifecycle?.onPause();
+  void onAppPause() {
+    widget.mockLifecycle?.onAppPause();
   }
 
   @override
-  void onDetached() {
-    widget.mockLifecycle?.onDetached();
+  void onAppDetach() {
+    widget.mockLifecycle?.onAppDetach();
   }
 }

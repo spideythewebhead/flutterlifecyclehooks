@@ -3,105 +3,75 @@ import 'dart:ui';
 import 'package:flutter/widgets.dart';
 
 /// A mixin that can be used on [StatefulWidget]s.
-/// Implements [WidgetsBindingObserver] and handles de/registering by itself.
-/// Must implement [onResume] and [onPause].
-/// Override [onContextReady] as alternative to initState to have context ready
-/// Also to synchronously obtain the lifecycle you can call [currentLifecycleState]
-mixin LifecycleMixin<T extends StatefulWidget> on State<T>
-    implements WidgetsBindingObserver {
-  var _didRunOnContextReady = false;
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    switch (state) {
-      case AppLifecycleState.resumed:
-        onResume();
-        return;
-      case AppLifecycleState.inactive:
-        onInactive();
-        return;
-      case AppLifecycleState.paused:
-        onPause();
-        return;
-      case AppLifecycleState.detached:
-        onDetached();
-        return;
-    }
-  }
+///
+/// Uses [AppLifecycleListener] and handles de/registering itself.
+///
+/// Override [onContextReady] as alternative of [initState] to have context ready.
+///
+/// Also to synchronously obtain the lifecycle you can call [currentLifecycleState].
+mixin LifecycleMixin<T extends StatefulWidget> on State<T> {
+  bool _didRunOnContextReady = false;
+  AppLifecycleListener? _appLifecycleListener;
 
   AppLifecycleState? get currentLifecycleState =>
+      _appLifecycleListener?.binding.lifecycleState ??
       WidgetsBinding.instance.lifecycleState;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
+    _appLifecycleListener = AppLifecycleListener(
+      onShow: onAppShow,
+      onHide: onAppHide,
+      onRestart: onAppRestart,
+      onResume: onAppResume,
+      onPause: onAppPause,
+      onInactive: onAppInactive,
+      onDetach: onAppDetach,
+      onStateChange: onAppLifecycleChange,
+      onExitRequested: onExitAppRequest,
+    );
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    if (!_didRunOnContextReady) {
-      _didRunOnContextReady = true;
-      onContextReady();
+    if (_didRunOnContextReady) {
+      return;
     }
+
+    _didRunOnContextReady = true;
+    onContextReady();
   }
 
   @override
   void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
+    _appLifecycleListener?.dispose();
     super.dispose();
   }
 
-  /// runs the first time [didChangeDependencies] is called
-  /// in case you have other mixins which override [didChangeDependencies]
-  /// add this mixin as the last mixin in the list
+  /// Runs the first time [didChangeDependencies] is called.
+  ///
+  /// In case you have other mixins which override [didChangeDependencies]
+  /// add this mixin as the last mixin in the list.
   void onContextReady() {}
 
-  void onResume();
+  void onAppShow() {}
 
-  void onInactive() {}
+  void onAppHide() {}
 
-  void onPause();
+  void onAppResume() {}
 
-  void onDetached() {}
+  void onAppPause() {}
 
-  @override
-  void didChangeAccessibilityFeatures() {}
+  void onAppRestart() {}
 
-  @override
-  void didChangeLocales(List<Locale>? locales) {}
+  void onAppInactive() {}
 
-  @override
-  void didChangeMetrics() {}
+  void onAppDetach() {}
 
-  @override
-  void didChangePlatformBrightness() {}
+  void onAppLifecycleChange(AppLifecycleState state) {}
 
-  @override
-  void didChangeTextScaleFactor() {}
-
-  @override
-  void didHaveMemoryPressure() {}
-
-  @override
-  Future<bool> didPopRoute() {
-    return Future.value(false);
-  }
-
-  @override
-  Future<bool> didPushRoute(String route) {
-    return Future.value(false);
-  }
-
-  @override
-  Future<bool> didPushRouteInformation(RouteInformation routeInformation) {
-    return Future.value(false);
-  }
-
-  @override
-  Future<AppExitResponse> didRequestAppExit() async {
-    return AppExitResponse.exit;
-  }
+  Future<AppExitResponse> onExitAppRequest() async => AppExitResponse.exit;
 }

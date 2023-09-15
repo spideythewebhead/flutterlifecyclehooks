@@ -4,7 +4,7 @@ version: 3.0.2
 homepage: https://github.com/spideythewebhead/flutterlifecyclehooks
 
 environment:
-  sdk: ">=2.17.0 <4.0.0"
+  sdk: ">=3.0.0 <4.0.0"
   flutter: ">=3.0.0"
 
 dependencies:
@@ -14,7 +14,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  mockito: 5.4.0
-  flutter_lints: 2.0.1
+  mockito: ^5.4.2
+  flutter_lints: ^2.0.1
 
 flutter:
