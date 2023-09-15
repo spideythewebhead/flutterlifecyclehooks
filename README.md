@@ -1,11 +1,22 @@
 # flutterlifecyclehooks
 
 A flutter package that lets you easily add hooks for application lifecycle state.
-LifecycleMixin just implements the `WidgetsBindingObserver` and invokes the callbacks `onResume`, `onPause` for you.
+[`LifecycleMixin`](/lib/src/lifecycle_mixin.dart) uses the `AppLifecycleListener` and registers methods as hooks.
 
-Optionally provides `onContextReady`, `onDetached`.
+The list of hooks is:
 
-You can use the other callbacks provided by [WidgetsBindingObserver](https://api.flutter.dev/flutter/widgets/WidgetsBindingObserver-class.html)
+- onAppShow
+- onAppHide
+- onAppRestart
+- onAppResume
+- onAppPause
+- onAppInactive
+- onAppDetach
+- onExitAppRequest
+
+Note: _Read more about these lifecycle hooks https://api.flutter.dev/flutter/widgets/AppLifecycleListener-class.html_
+
+Optionally provides `onContextReady` that acts like `initState` but `BuildContext` is available for use.
 
 ## Getting Started
 
@@ -25,12 +36,6 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> with LifecycleMixin {
-  // optional
-  @override
-  void onContextReady() {
-    print(context);
-  }
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -45,13 +50,23 @@ class _AppState extends State<App> with LifecycleMixin {
   }
 
   @override
-  void onPause() {
-    print('did pause');
+  void onAppLifecycleChange(AppLifecycleState state) {
+    setState(() {});
   }
 
   @override
   void onResume() {
     print('did resume');
   }
+
+  @override
+  void onPause() {
+    print('did pause');
+  }
 }
 ```
+---
+
+Also you can use, [`LifecycleHooksSubscriber`](/lib/src/lifecycle_hooks_subscriber.dart) wraps a widget and provides convient arguments for lifecycle hooks.
+
+You can use this if you don't want to polute the namespace of a stateful widget.

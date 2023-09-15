@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutterlifecyclehooks/flutterlifecyclehooks.dart';
 
@@ -9,17 +11,24 @@ class App extends StatefulWidget {
   const App({Key? key}) : super(key: key);
 
   @override
-  _AppState createState() => _AppState();
+  AppState createState() => AppState();
 }
 
-class _AppState extends State<App> with LifecycleMixin {
+class AppState extends State<App> with LifecycleMixin {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        body: Center(
-          child: Text(
-            currentLifecycleState.toString(),
+        body: SizedBox.expand(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                currentLifecycleState.toString(),
+              ),
+              const SimpleWidget(),
+            ],
           ),
         ),
       ),
@@ -27,23 +36,61 @@ class _AppState extends State<App> with LifecycleMixin {
   }
 
   @override
-  void onContextReady() {
-    /// get your provider or other context dependant
-    debugPrint('on context ready => $context');
+  void onAppLifecycleChange(AppLifecycleState state) {
+    setState(() {});
   }
 
   @override
-  void onPause() {
-    debugPrint('did pause');
+  void onAppShow() {
+    debugPrint('did show');
   }
 
   @override
-  void onResume() {
+  void onAppHide() {
+    debugPrint('did hide');
+  }
+
+  @override
+  void onAppResume() {
     debugPrint('did resume');
   }
 
   @override
-  void onDetached() {
-    debugPrint('detached');
+  void onAppPause() {
+    debugPrint('did pause');
+  }
+
+  @override
+  void onAppInactive() {
+    debugPrint('app inactive');
+  }
+
+  @override
+  void onAppRestart() {
+    debugPrint('app restarted');
+  }
+
+  @override
+  void onAppDetach() {
+    debugPrint('app detached');
+  }
+
+  @override
+  Future<AppExitResponse> onExitAppRequest() {
+    debugPrint('on app exit request');
+    return super.onExitAppRequest();
+  }
+}
+
+class SimpleWidget extends StatelessWidget {
+  const SimpleWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return LifecycleHooksSubscriber(
+      onAppResume: () =>
+          debugPrint('onAppResume from SimpleWidget LifecycleHooksSubscriber'),
+      child: const Text('SimpleWidget'),
+    );
   }
 }
