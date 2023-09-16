@@ -1,7 +1,7 @@
 # flutterlifecyclehooks
 
 A flutter package that lets you easily add hooks for application lifecycle state.
-[`LifecycleMixin`](/lib/src/lifecycle_mixin.dart) uses the `AppLifecycleListener` and registers methods as hooks.
+[`LifecycleMixin`](https://github.com/spideythewebhead/flutterlifecyclehooks/blob/master/lib/src/lifecycle_mixin.dart) uses the `AppLifecycleListener` and registers methods as hooks.
 
 The list of hooks is:
 
@@ -22,14 +22,14 @@ Optionally provides `onContextReady` that acts like `initState` but `BuildContex
 
 Add on pubspec.yaml
 
-```
+```yaml
 dependencies:
     flutterlifecyclehooks: version
 ```
 
 ## Example code
 
-```
+```dart
 class App extends StatefulWidget {
   @override
   _AppState createState() => _AppState();
@@ -67,6 +67,6 @@ class _AppState extends State<App> with LifecycleMixin {
 ```
 ---
 
-Also you can use, [`LifecycleHooksSubscriber`](/lib/src/lifecycle_hooks_subscriber.dart) wraps a widget and provides convient arguments for lifecycle hooks.
+Also you can use, [`LifecycleHooksSubscriber`](https://github.com/spideythewebhead/flutterlifecyclehooks/blob/master/lib/src/lifecycle_hooks_subscriber.dart) wraps a widget and provides convient arguments for lifecycle hooks.
 
 You can use this if you don't want to polute the namespace of a stateful widget.

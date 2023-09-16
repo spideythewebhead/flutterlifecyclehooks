@@ -1,3 +1,10 @@
+### 4.0.0
+
+- Migrated from `WidgetsBindingObserver` to `AppLifecycleListener`.
+- Introduced [`LifecycleHooksSubscriber`](https://github.com/spideythewebhead/flutterlifecyclehooks/blob/master/lib/src/lifecycle_hooks_subscriber.dart) 
+  as an alternative to the mixin.
+- Updated dependencies.
+
 ### 3.0.2
 
 - Support Flutter 3.10.0
