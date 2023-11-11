@@ -1,3 +1,7 @@
+### 5.0.0-web.1
+
+- Add support on web for the following hooks: `onAppResume` and `onAppPause`
+
 ### 4.0.0
 
 - Migrated from `WidgetsBindingObserver` to `AppLifecycleListener`.

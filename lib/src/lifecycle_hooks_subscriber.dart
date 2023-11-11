@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/widgets.dart';
-import 'package:flutterlifecyclehooks/src/lifecycle_mixin.dart';
+import 'package:flutterlifecyclehooks/flutterlifecyclehooks.dart';
 
 /// [LifecycleHooksSubscriber] wraps a widget [child] and proovides convient arguments for lifecycle hooks.
 ///
@@ -43,6 +43,9 @@ class _LifecycleHooksSubscriberState extends State<LifecycleHooksSubscriber>
   Widget build(BuildContext context) {
     return widget.child;
   }
+
+  @override
+  void onContextReady() {}
 
   @override
   void onAppShow() => widget.onAppShow?.call();
