@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_function_declarations_over_variables
+
 // ignore: avoid_web_libraries_in_flutter
 import 'dart:html' as html;
 import 'dart:ui';
@@ -79,13 +81,13 @@ mixin LifecycleMixin<T extends StatefulWidget> on State<T>
   @override
   Future<AppExitResponse> onExitAppRequest() async => AppExitResponse.exit;
 
-  void _onWindowFocused(html.Event event) {
+  late final _onWindowFocused = (html.Event event) {
     onAppLifecycleChange(_lifecycleState = AppLifecycleState.resumed);
     onAppResume();
-  }
+  };
 
-  void _onWindowBlur(html.Event event) {
+  late final _onWindowBlur = (html.Event event) {
     onAppLifecycleChange(_lifecycleState = AppLifecycleState.paused);
     onAppPause();
-  }
+  };
 }
