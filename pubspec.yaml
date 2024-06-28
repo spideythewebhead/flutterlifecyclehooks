@@ -1,6 +1,6 @@
 name: flutterlifecyclehooks
 description: A flutter package that let you easily add hooks for application lifecycle state
-version: 5.0.0-web.1
+version: 5.0.0
 homepage: https://github.com/spideythewebhead/flutterlifecyclehooks
 
 environment:
